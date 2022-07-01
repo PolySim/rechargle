@@ -224,7 +224,7 @@ var reponse = function(){
 	input.style.backgroundColor = '#1fe0';
 	input.style.border = '0px';
 	input.style.fontSize = 'max(0.6vw, 1.2vh)';
-	input.style.fontFamily = 'Inika';
+	input.style.fontFamily = '"M PLUS 2", sans-serif;';
 	input.style.outline = 'none';
 	
 	div.appendChild(input);
@@ -403,7 +403,7 @@ var erreur = function(){
 	storage.setItem('nb', nb);
 	place.appendChild(ligne);
 	
-	var perte = Math.floor(Math.random() * 10) + 10;
+	var perte = Math.floor(Math.random() * 15) + 15;
 	var div2 = document.createElement('div');
 	div2.style.color = '#D63232';
 	div2.textContent = '-' + perte.toString() + '%';
@@ -423,7 +423,7 @@ var erreur = function(){
 		delivered1.style.marginBottom = '5%';
 		place.appendChild(delivered1);
 	}else{
-		if (parseInt(val[0].textContent) <= 50 && document.getElementById("indice") == undefined){
+		if (parseInt(val[0].textContent) <= 60 && document.getElementById("indice") == undefined){
 			storage.setItem('indice', nb);
 			place.appendChild(indice());
 		}

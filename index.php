@@ -37,7 +37,7 @@
         var num = <?php echo json_encode($jour); ?>;
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inika&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=M+PLUS+2:wght@500&display=swap');
     </style>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap');
@@ -59,7 +59,10 @@
             <div id="divIcone">
 			    <img src='image/logor.png' alt='icone' height='100%'>
             </div>
-			<div>Rechargle <span>n°<?php echo $num ?></span></div>
+            <div id="colonneOnline">
+			    <div id="textName">Rechargle<span>n°<?php echo $num ?></span></div>
+                <div id="online">Online</div>
+            </div>
         </div>
 		<div id='fond'>
                 
@@ -88,10 +91,10 @@
 
     <div id="regle">
         <p>Game rules :</p>
-        <p>1) Guess which celebrity corresponds to the picture before the battery runs out</p>
-        <p>2) For each error, you randomly lose between 10 and 20% of battery</p>
-        <p>3) You get one new clue when your phone battery goes under 50%</p>
-        <p>4) The battery recharges every 24 hours and a new photo appears</p>
+        <p>1) Guess which <strong>celebrity</strong> corresponds to the picture before the <strong>battery</strong> runs out</p>
+        <p>2) For each <strong>error</strong>, you randomly <strong>lose</strong> between <strong>15</strong> and <strong>30%</strong> of battery</p>
+        <p>3) You get two news <strong>clues</strong> when your phone battery goes under <strong>60</strong> and <strong>30%</strong></p>
+        <p>4) The battery recharges every <strong>24 hours</strong> and a new photo appears</p>
     </div>
 
     <div id="ligneReponse">
