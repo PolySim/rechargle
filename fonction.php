@@ -12,21 +12,21 @@ function returnTab(){
 
     $tab = [];
     foreach ($image as $img1){
-        $tab[] = ajoutImg($img1['id'], $img1['img1'], $img1['img2'], $img1['alt1'], $img1['alt2'], $img1['indice'], $img1['alt3'], $img1['reponse']);
+        $tab[] = ajoutImg($img1['id'], $img1['img1'], $img1['img2'], $img1['alt1'], $img1['alt2'], $img1['alt3'], $img1['reponse'], $img1['indice2']);
     }
     return $tab;
 }
 
-function ajoutImg($id, $im1, $im2, $alt1, $alt2, $indice, $alt3, $reponse){
+function ajoutImg($id, $im1, $im2, $alt1, $alt2, $alt3, $reponse, $indice2){
     return array(
         'id' => $id,
         'im1' => $im1,
         'im2' => $im2,
         'alt1' => $alt1,
         'alt2' => $alt2,
-        'indice' => $indice,
         'alt3' => $alt3,
         'reponse' => $reponse,
+        'indice2' => $indice2,
     );
 }
 

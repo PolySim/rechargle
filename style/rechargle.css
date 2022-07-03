@@ -95,8 +95,6 @@ main{
     border-bottom: 0.5px solid #4F772D; 
 }
 
-
-
 #divIcone{
     height: 90%;
     width: auto;
@@ -129,9 +127,18 @@ main{
 #online{
     position: absolute;
     top: 47%;
-    left: 5%;
+    left: 8%;
     font-size : max(0.6vw, 1.7vh); 
     color: grey;
+}
+
+#online span{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left : -25%;
+    top: 26%;
+    font-size: 50%;
 }
 
 #textName span{
@@ -168,6 +175,51 @@ main{
     }
     100% {
         transform: translateX(0px);
+    }
+}
+
+@keyframes wait1{
+    0%{
+        opacity: 1;
+    }
+    33%{
+        opacity: 0.4;
+    }
+    66%{
+        opacity: 0.7;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes wait2{
+    0%{
+        opacity: 0.7;
+    }
+    33%{
+        opacity: 1;
+    }
+    66%{
+        opacity: 0.4;
+    }
+    100%{
+        opacity: 0.7;
+    }
+}
+
+@keyframes wait3{
+    0%{
+        opacity: 0.4;
+    }
+    33%{
+        opacity: 0.7;
+    }
+    66%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0.4;
     }
 }
 
