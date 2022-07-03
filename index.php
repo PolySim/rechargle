@@ -19,9 +19,9 @@
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="theme-color" content="#ffffff">
     
-    <link rel="stylesheet" type="text/css" href="style/rechargle.css?version=2.5" /> 
+    <link rel="stylesheet" type="text/css" href="style/rechargle.css?version=2.7" /> 
     <script src="https://code.jquery.com/jquery.js" type="text/javascript"></script> 
-    <script src="script/rechargle.js?version=2.5"></script>
+    <script src="script/rechargle.js?version=2.7"></script>
     <?php 
     include 'fonction.php' ;
     $tab = returnTab();
@@ -49,19 +49,19 @@
     <img src="image/iphonee.png" alt="iphone" id="iphone"/>
     <main id="back">
         <div id="barre">
-			<img src='image/wifi.png' alt='wifi'/>
+			<img src='image/wifi2.png' alt='wifi'/>
 			<div>HORIZON</div>
 			<div id='heure'><span>10.18</span><span>a.m</span></div>
 			<div id='batterie'><span>100</span>%</div>
-            <img src='image/1.png' alt='batterie' height='100%'/>
+            <img src='image/11.png' alt='batterie' height='100%'/>
         </div>
         <div id="name">
             <div id="divIcone">
-			    <img src='image/logor.png' alt='icone' height='100%'>
+			    <img src='image/logor2.png' alt='icone' height='100%'>
             </div>
             <div id="colonneOnline">
 			    <div id="textName">Rechargle<span>n°<?php echo $num ?></span></div>
-                <div id="online">Online</div>
+                <div id="online"><span>🟢</span>Online</div>
             </div>
         </div>
 		<div id='fond'>
@@ -90,10 +90,10 @@
     </p>
 
     <div id="regle">
-        <p>Game rules :</p>
+        <p>Game rules</p>
         <p>1) Guess which <strong>celebrity</strong> corresponds to the picture before the <strong>battery</strong> runs out</p>
-        <p>2) For each <strong>error</strong>, you randomly <strong>lose</strong> between <strong>15</strong> and <strong>30%</strong> of battery</p>
-        <p>3) You get two news <strong>clues</strong> when your phone battery goes under <strong>60</strong> and <strong>30%</strong></p>
+        <p>2) For each <strong>error</strong> you randomly <strong>lose</strong> between <strong>15</strong> and <strong>30%</strong> of battery</p>
+        <p>3) You get two new <strong>clues</strong> when your phone battery goes under <strong>60</strong> and <strong>30%</strong></p>
         <p>4) The battery recharges every <strong>24 hours</strong> and a new photo appears</p>
     </div>
 
@@ -105,7 +105,7 @@
         </div>
 
         <div id="hier">
-            <p>Yesterday answer :</p>
+            <p>Yesterday answer</p>
             <img src='<?php echo $tab[$jour]['im2'] ?>' alt="<?php echo $tab[$jour]['alt2'] ?>"/>
             <p><?php echo $tab[$jour]['alt2'] ?><p>
         </div>
