@@ -75,26 +75,50 @@ function bonneHeure(){
 window.addEventListener('keyup', modifie_heure);
 window.addEventListener('load', modifie_heure);
 
+function firstMessage() {
+	let message = document.createElement('div');
+	message.className = 'delivered';
+	message.style.display = 'flex';
+	message.style.boxSizing = 'border-box';
+	message.style.padding = '1%';
+	message.style.alignItems = 'center';
+	message.style.justifyContent = 'center';
+	message.style.border = '2px solid black';
+	message.style.borderRadius = '5px';
+	message.style.marginTop = '2%';
+	message.style.width = '43.5%';
+	message.style.height = '80%';
+	message.style.opacity = '90%';
+	message.style.fontSize = 'max(0.5vw, 1.1vh)';
+	message.style.textAlign = 'center';
+	message.style.fontWeight = 'normal';
+	message.style.backgroundColor = '#F9F7F1';
+	message.textContent = "Hi ! Do u know who's that ? ⬇️⬇️";
+	return message
+}
+
 const choseImg = function(nume){
 	var place = document.getElementById('fond');
 	
 	var part = document.createElement('div');
 	part.style.display = 'flex';
-	part.style.height = '27.4%';
-	part.style.marginTop = '5%';
+	part.style.height = '10%';
+	part.style.marginTop = '1.5%';
 	
 	var divIcone = document.createElement('div');
-	divIcone.style.height = '25%';
+	divIcone.style.height = '68.5%';
 	divIcone.style.width = '10.85%';
 	divIcone.style.margin = "0px 1% 0px 1%";
 	var icone = document.createElement('img');
-	icone.src = 'image/logor.png';
+	icone.src = 'image/logor2.png';
 	icone.alt = 'icone';
 	icone.style.height = '100%';
 	icone.style.width = '100%';
 	divIcone.appendChild(icone);
 	part.appendChild(divIcone);
 	
+	part.appendChild(firstMessage());
+
 	var photo = document.createElement('img');
 	photo.src = data[nume]['im1'];
 	photo.alt = data[nume]['alt1'];
@@ -103,9 +127,13 @@ const choseImg = function(nume){
 	photo.style.width = 'auto';
 	photo.style.opacity = '90%';
 	photo.style.borderRadius = '10%';
-	part.appendChild(photo);
+	photo.style.marginLeft = '13%';
+	var part2 = document.createElement('div');
+	part2.style.height = '27.4%';
 	
 	place.appendChild(part);
+	part2.appendChild(photo)
+	place.appendChild(part2);
 	place.appendChild(delivered());
 	
 	var rep = document.createElement('div');
@@ -167,6 +195,7 @@ var delivered = function(){
 	delivered.style.opacity = '90%';
 	delivered.style.fontSize = 'max(0.7vw, 1.3vh)';
 	delivered.style.fontWeight = 'normal';
+	delivered.style.backgroundColor = '#F9F7F1';
 	var texte = document.createElement('div');
 	texte.textContent = 'Delivered at ';
 	var span = document.createElement('span');
@@ -200,7 +229,11 @@ var reponse = function(){
 	var div = document.createElement('div');
 	var input = document.createElement('input');
 	div.id = 'placeRep';
-	div.style.display = 'flex';
+	if (localStorage.getItem('perte1') == null || document.getElementById('animMessage') == null){
+		div.style.display = 'flex';
+	}else{
+		div.style.display = 'none';
+	}
 	div.style.alignItems = 'center';
 	div.style.justifyContent = 'center';
 	div.style.position = 'relative';
@@ -214,6 +247,7 @@ var reponse = function(){
 	div.style.fontSize = 'max(0.7vw, 1.3vh)';
 	div.style.fontWeight = 'normal';
 	div.style.marginLeft = 'auto';
+	div.style.backgroundColor = '#F9F7F1';
 	
 	input.id = 'reponse';
 	input.placeholder = 'Type your answer ...';
@@ -289,6 +323,7 @@ function ajoutReponse(reponse, color, indice){
 	div.style.color = color;
 	div.style.padding = '1%';
 	div.style.overflow = 'hidden';
+	div.style.backgroundColor = '#F9F7F1'
 	div.textContent = reponse;
 
 	if (indice == 0){
@@ -322,6 +357,7 @@ function ajoutInput(){
 	div3.style.width = '10%';
 	div3.style.position = 'relative';
 	div3.style.zIndex = '2';
+	div3.style.backgroundColor = '#F9F7F1';
 	div3.id = 'envoie';
 	var envoie2 = document.createElement('img');
 	envoie2.src = 'image/envoie.png';
@@ -382,6 +418,7 @@ var erreur = function(){
 	div.style.color = '#D63232';
 	div.style.padding = '1%';
 	div.style.overflow = 'hidden';
+	div.style.backgroundColor = '#F9F7F1';
 	div.textContent = rep.value;
 	
 	if (nb == 0){
@@ -423,9 +460,19 @@ var erreur = function(){
 		delivered1.style.marginBottom = '5%';
 		place.appendChild(delivered1);
 	}else{
-		if (parseInt(val[0].textContent) <= 60 && document.getElementById("indice") == undefined){
+		if (parseInt(val[0].textContent) <= 85 && document.getElementById("ligneLaugh") == undefined){
+			place.appendChild(messageLaugh());
+			setTimeout(() => {
+				document.getElementById('messageLaugh').style.display = 'flex';
+				supAnimMessage();
+			}, 3000)
+		}
+		else if (parseInt(val[0].textContent) <= 60 && document.getElementById("indice") == undefined){
 			storage.setItem('indice', nb);
 			place.appendChild(indice());
+			setTimeout(() => {
+				supAnimMessage();
+			}, 3000)
 		}
 		var rep2 = reponse();
 		rep2.style.marginRight = '13%';
@@ -441,6 +488,9 @@ var erreur = function(){
 		div3.style.position = 'relative';
 		div3.style.zIndex = '2';
 		div3.id = 'envoie';
+		if(document.getElementById('animMessage') != null){
+			div3.style.display = 'none';
+		}
 		var envoie2 = document.createElement('img');
 		envoie2.src = 'image/envoie.png';
 		envoie2.alt = 'envoie';
@@ -458,10 +508,53 @@ var erreur = function(){
 	}	
 }
 
+function messageLaugh() {
+	var ligne = document.createElement('div');
+	ligne.style.height = '10%';
+	ligne.style.display = 'flex';
+	ligne.style.position = 'relative';
+	ligne.id = 'ligneLaugh';
+
+	var divIcone = document.createElement('div');
+	divIcone.style.height = '68.5%';
+	divIcone.style.width = '10.85%';
+	divIcone.style.margin = "0px 1% 0px 1%";
+	var icone = document.createElement('img');
+	icone.src = 'image/logor2.png';
+	icone.alt = 'icone';
+	icone.style.height = '100%';
+	icone.style.width = '100%';
+	divIcone.appendChild(icone);
+	ligne.appendChild(divIcone);
+
+	let message = document.createElement('div');
+	message.id = 'messageLaugh';
+	message.style.display = 'none';
+	message.style.boxSizing = 'border-box';
+	message.style.padding = '1%';
+	message.style.alignItems = 'center';
+	message.style.justifyContent = 'center';
+	message.style.border = '2px solid black';
+	message.style.borderRadius = '5px';
+	message.style.marginTop = '2%';
+	message.style.width = '50%';
+	message.style.height = '80%';
+	message.style.opacity = '90%';
+	message.style.fontSize = 'max(0.6vw, 1.3vh)';
+	message.style.fontWeight = 'normal';
+	message.style.backgroundColor = '#F9F7F1';
+	message.textContent = "Ah Ah ! Not this one 😯";
+
+	ligne.appendChild(message);
+	ligne.appendChild(animMessage());
+	return ligne
+}
+
 function indice(){
 	var ligne = document.createElement('div');
 	ligne.style.height = '10%';
 	ligne.style.display = 'flex';
+	ligne.style.position = 'relative';
 	ligne.id = 'indice';
 
 	var divIcone = document.createElement('div');
@@ -469,7 +562,7 @@ function indice(){
 	divIcone.style.width = '10.85%';
 	divIcone.style.margin = "0px 1% 0px 1%";
 	var icone = document.createElement('img');
-	icone.src = 'image/logor.png';
+	icone.src = 'image/logor2.png';
 	icone.alt = 'icone';
 	icone.style.height = '100%';
 	icone.style.width = '100%';
@@ -484,6 +577,7 @@ function indice(){
 	photo.style.opacity = '90%';
 	photo.style.borderRadius = '10%';
 	ligne.appendChild(photo);
+	ligne.appendChild(animMessage());
 
 	return ligne;
 }
@@ -498,15 +592,15 @@ var modifie_batterie = function(valeur){
 	val[0].textContent = val[0].textContent - valeur;
 	if (val[0].textContent <= 0){
 		val[0].textContent = '0';
-		image.src = 'image/6.png';
+		image.src = 'image/66.png';
 	} else if (val[0].textContent <= 20){
-		image.src = 'image/5.png';
+		image.src = 'image/55.png';
 	} else if (val[0].textContent <= 40){
-		image.src = 'image/4.png';
+		image.src = 'image/44.png';
 	} else if (val[0].textContent <= 60){
-		image.src = 'image/3.png';
+		image.src = 'image/33.png';
 	} else if (val[0].textContent <= 80){
-		image.src = 'image/2.png';
+		image.src = 'image/22.png';
 	} 
 	storage.setItem('batterie', parseInt(val[0].textContent));
 }
@@ -523,7 +617,7 @@ function lose(){
 	divIcone.style.width = '10.85%';
 	divIcone.style.margin = "0px 1.5% 0px 1%"
 	var icone = document.createElement('img');
-	icone.src = 'image/logor.png';
+	icone.src = 'image/logor2.png';
 	icone.alt = 'icone';
 	icone.style.height = '100%';
 	icone.style.width = '100%';
@@ -539,10 +633,11 @@ function lose(){
 	div.style.height = '100%';
 	div.style.width = '43.5%';
 	div.style.opacity = '90%';
-	div.style.fontSize = 'max(0.7vw, 1.3vh)';
+	div.style.fontSize = 'max(0.5vw, 1.3vh)';
 	div.style.fontWeight = 'normal';
 	div.style.textAlign = 'center';
 	div.style.padding = '1%';
+	div.style.backgroundColor = '#F9F7F1';
 	
 	var l1 = document.createElement('p');
 	l1.textContent = "Oh no, your phone’s die 😢 ! Come back tomorrow to discover what was the answer of the day and try again !!";
@@ -595,6 +690,7 @@ function goodRep(){
 	div.style.color = '#56A526';
 	div.style.padding = '1%';
 	div.style.overflow = 'hidden';
+	div.style.backgroundColor = '#F9F7F1';
 	div.textContent = rep.value;
 
 	if (document.getElementById('djune') == null){
@@ -625,7 +721,7 @@ function felicitation(){
 	divIcone.style.width = '10.85%';
 	divIcone.style.margin = "0px 1.5% 0px 1%"
 	var icone = document.createElement('img');
-	icone.src = 'image/logor.png';
+	icone.src = 'image/logor2.png';
 	icone.alt = 'icone';
 	icone.style.height = '100%';
 	icone.style.width =  '100%';
@@ -641,10 +737,11 @@ function felicitation(){
 	div.style.height = '100%';
 	div.style.width = '43.5%';
 	div.style.opacity = '90%';
-	div.style.fontSize = 'max(0.6vw, 1.2vh)';
+	div.style.fontSize = 'max(0.45vw, 1.2vh)';
 	div.style.fontWeight = 'normal';
 	div.style.textAlign = 'center';
 	div.style.padding = '1%';
+	div.style.backgroundColor = '#F9F7F1';
 	div.textContent = "Awesome, You’ve completed this Rechargle before the phone run’s out !! Come back tomorrow and discover a new image 😉";
 	ligne.appendChild(div);
 	
@@ -666,6 +763,53 @@ function win(){
 	var trouve = document.getElementById('nbreussi');
 	trouve.textContent = parseInt(trouve.textContent) + 1;
 	ajout();
+}
+
+function animMessage() {
+	var bloc = document.createElement('div');
+	bloc.id = 'animMessage';
+	bloc.style.height = '60%';
+	bloc.style.width = '25%';
+	bloc.style.backgroundColor = '#F9F7F1';
+	bloc.style.position = 'absolute';
+	bloc.style.top = '2%';
+	bloc.style.borderRadius = '10%';
+	bloc.style.border = '2px solid black';
+	bloc.style.left = '13%';
+	bloc.style.display = 'flex';
+	bloc.style.justifyContent = 'center';
+	bloc.style.alignItems = 'center';
+	bloc.style.fontSize = 'min(0.7vw, 90%)';
+
+	var span1 = document.createElement('span');
+	span1.id = '1';
+	span1.textContent = '⚫';
+	span1.style.animation = 'wait1 1s infinite';
+	var span2 = document.createElement('span');
+	span2.id = '2';
+	span2.style.opacity = '70%';
+	span2.textContent = '⚫';
+	span2.style.animation = 'wait2 1s infinite';
+	var span3 = document.createElement('span');
+	span3.id = '3';
+	span3.style.opacity = '40%';
+	span3.textContent = '⚫';
+	span3.style.animation = 'wait3 1s infinite';
+	bloc.appendChild(span1);
+	bloc.appendChild(span2);
+	bloc.appendChild(span3);
+
+	return bloc
+}
+
+function supAnimMessage() {
+	document.getElementById('animMessage').remove();
+	if(document.getElementById('asup') != null){
+		document.getElementById('asup').style.display = 'flex'; 
+	}
+	if (document.getElementById('envoie') != null){
+		document.getElementById('envoie').style.display = 'block';
+	}
 }
 
 function ajout(){
