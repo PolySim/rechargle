@@ -19,9 +19,9 @@
     <meta name="msapplication-TileColor" content="#2b5797">
     <meta name="theme-color" content="#ffffff">
     
-    <link rel="stylesheet" type="text/css" href="style/rechargle.css?version=2.6" /> 
+    <link rel="stylesheet" type="text/css" href="style/rechargle.css?version=2.7" /> 
     <script src="https://code.jquery.com/jquery.js" type="text/javascript"></script> 
-    <script src="script/rechargle.js?version=2.6"></script>
+    <script src="script/rechargle.js?version=2.7"></script>
     <?php 
     include 'fonction.php' ;
     $tab = returnTab();

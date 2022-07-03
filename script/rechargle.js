@@ -199,6 +199,7 @@ var delivered = function(){
 	var texte = document.createElement('div');
 	texte.textContent = 'Delivered at ';
 	var span = document.createElement('span');
+	span.className = 'heureDelivered';
 	span.textContent = heure.getElementsByTagName('span')[0].textContent;
 	texte.appendChild(span);
 	delivered.appendChild(texte);
@@ -276,6 +277,11 @@ var valide = function(nume){
 		envoie.style.animation = 'none';
 		if (reponse.toLowerCase() == data[nume]['reponse']){
 			win()
+			setTimeout(() => {
+				supAnimMessage();
+				document.getElementById('goodRep').style.color = '#56A526';
+				document.getElementById('felicitation').style.display = 'flex';
+			}, 3000)
 		}
 		else {
 			erreur()
@@ -415,7 +421,6 @@ var erreur = function(){
 	div.style.fontSize = 'max(0.7vw, 1.3vh)';
 	div.style.fontWeight = 'normal';
 	div.style.marginLeft = 'auto';
-	div.style.color = '#D63232';
 	div.style.padding = '1%';
 	div.style.overflow = 'hidden';
 	div.style.backgroundColor = '#F9F7F1';
@@ -443,6 +448,7 @@ var erreur = function(){
 	var perte = Math.floor(Math.random() * 15) + 15;
 	var div2 = document.createElement('div');
 	div2.style.color = '#D63232';
+	div2.style.display = 'none';
 	div2.textContent = '-' + perte.toString() + '%';
 	div2.style.fontSize = 'max(0.7vw, 1.3vh)';
 	div2.style.margin = '0 6.5% 0 auto';
@@ -450,35 +456,74 @@ var erreur = function(){
 	div2.style.width = '20%';
 	place.appendChild(div2);
 	
-	modifie_batterie(perte);
 	var batterie = document.getElementById('batterie');
 	var val = batterie.getElementsByTagName('span');
-	if (val[0].textContent == '0'){
+
+	var rep2 = reponse();
+	rep2.style.marginRight = '13%';
+	rep2.style.marginTop = '4%';
+	rep2.style.height = '6.25%'
+	rep2.style.display = 'none';
+	rep2.id = 'asup';
+
+	if (parseInt(val[0].textContent) - perte <= 0){
+		setTimeout(() => modifie_batterie(perte), 3000);
 		place.appendChild(lose());
 		storage.setItem('win', false);
 		var delivered1 = delivered();
 		delivered1.style.marginBottom = '5%';
+		delivered1.style.display = 'none';
 		place.appendChild(delivered1);
+		setTimeout(() => {
+			document.getElementById('messageLose').style.display = 'flex';
+			div.style.color = '#D63232';
+			div2.style.display = 'block';
+			delivered1.style.display = 'flex';
+			supAnimMessage();
+			donneFocus();
+		}, 3000)
 	}else{
-		if (parseInt(val[0].textContent) <= 85 && document.getElementById("ligneLaugh") == undefined){
+		if (parseInt(val[0].textContent) - perte <= 85 && document.getElementById("ligneLaugh") == null){
+			setTimeout(() => modifie_batterie(perte), 3000);
 			place.appendChild(messageLaugh());
 			setTimeout(() => {
 				document.getElementById('messageLaugh').style.display = 'flex';
+				div.style.color = '#D63232';
+				div2.style.display = 'block';
+				rep2.style.display = 'block';
 				supAnimMessage();
+				donneFocus();
 			}, 3000)
 		}
-		else if (parseInt(val[0].textContent) <= 60 && document.getElementById("indice") == undefined){
+		else if (parseInt(val[0].textContent) - perte <= 60 && document.getElementById("indice1") == null){
+			setTimeout(() => modifie_batterie(perte), 3000);
 			storage.setItem('indice', nb);
-			place.appendChild(indice());
+			place.appendChild(indice(data[num]['alt3'], 'indice1'));
 			setTimeout(() => {
 				supAnimMessage();
+				div.style.color = '#D63232';
+				div2.style.display = 'block';
+				document.getElementById('indice1').style.display = 'flex';
+				donneFocus();
 			}, 3000)
+		}else if (parseInt(val[0].textContent) - perte <= 30 && document.getElementById("indice2") == null){
+			setTimeout(() => modifie_batterie(perte), 3000);
+			storage.setItem('indice2', nb);
+			place.appendChild(indice(data[num]['indice2'], 'indice2'));
+			setTimeout(() => {
+				supAnimMessage();
+				div.style.color = '#D63232';
+				div2.style.display = 'block';
+				document.getElementById('indice2').style.display = 'flex';
+				donneFocus();
+			}, 3000)
+		}else {
+			modifie_batterie(perte);
+			div.style.color = '#D63232';
+			div2.style.display = 'block';
+			rep2.style.display = 'flex';
 		}
-		var rep2 = reponse();
-		rep2.style.marginRight = '13%';
-		rep2.style.marginTop = '4%';
-		rep2.style.height = '6.25%'
-		rep2.id = 'asup';
+		
 		place.appendChild(rep2);
 
 		var div3 = document.createElement('div');
@@ -536,7 +581,6 @@ function messageLaugh() {
 	message.style.justifyContent = 'center';
 	message.style.border = '2px solid black';
 	message.style.borderRadius = '5px';
-	message.style.marginTop = '2%';
 	message.style.width = '50%';
 	message.style.height = '80%';
 	message.style.opacity = '90%';
@@ -550,12 +594,11 @@ function messageLaugh() {
 	return ligne
 }
 
-function indice(){
+function indice(text, id){
 	var ligne = document.createElement('div');
 	ligne.style.height = '10%';
 	ligne.style.display = 'flex';
 	ligne.style.position = 'relative';
-	ligne.id = 'indice';
 
 	var divIcone = document.createElement('div');
 	divIcone.style.height = '68.5%';
@@ -569,14 +612,23 @@ function indice(){
 	divIcone.appendChild(icone);
 	ligne.appendChild(divIcone);
 
-	var photo = document.createElement('img');
-	photo.src = data[num]['indice'];
-	photo.alt = data[num]['alt3'];
-	photo.style.height = '100%';
-	photo.style.width = 'auto';
-	photo.style.opacity = '90%';
-	photo.style.borderRadius = '10%';
-	ligne.appendChild(photo);
+	var message = document.createElement('div');
+	message.id = id;
+	message.style.display = 'none';
+	message.style.boxSizing = 'border-box';
+	message.style.padding = '1%';
+	message.style.alignItems = 'center';
+	message.style.justifyContent = 'center';
+	message.style.border = '2px solid black';
+	message.style.borderRadius = '5px';
+	message.style.width = '50%';
+	message.style.height = '80%';
+	message.style.opacity = '90%';
+	message.style.fontSize = 'max(0.6vw, 1.3vh)';
+	message.style.fontWeight = 'normal';
+	message.style.backgroundColor = '#F9F7F1';
+	message.textContent = text;
+	ligne.appendChild(message);
 	ligne.appendChild(animMessage());
 
 	return ligne;
@@ -609,6 +661,7 @@ function lose(){
 	var ligne = document.createElement('div');
 	ligne.id = 'lose';
 	ligne.style.display = 'flex';
+	ligne.style.position = 'relative';
 	ligne.style.height = '27.4%';
 	ligne.style.marginTop = '4%';
 
@@ -625,7 +678,8 @@ function lose(){
 	ligne.appendChild(divIcone);
 	
 	var div = document.createElement('div');
-	div.style.display = 'flex';
+	div.id = 'messageLose';
+	div.style.display = 'none';
 	div.style.alignItems = 'center';
 	div.style.boxSizing = 'border-box';
 	div.style.border = '2px solid black';
@@ -650,6 +704,9 @@ function lose(){
 	if (storage.getItem('win') != 'false'){
 		ajoutRate();
 	}
+	let waitMessage = animMessage();
+	waitMessage.style.height = '24%';
+	ligne.appendChild(waitMessage);
 	return ligne
 }
 
@@ -671,6 +728,7 @@ function goodRep(){
 	ligne.style.marginTop = '4%';
 	
 	var div = document.createElement('div');
+	div.id = 'goodRep';
 	div.style.display = 'flex';
 	div.style.flexWrap = 'wrap';
 	div.style.position = 'relative';
@@ -687,7 +745,6 @@ function goodRep(){
 	div.style.fontSize = 'max(0.7vw, 1.3vh)';
 	div.style.fontWeight = 'normal';
 	div.style.marginLeft = 'auto';
-	div.style.color = '#56A526';
 	div.style.padding = '1%';
 	div.style.overflow = 'hidden';
 	div.style.backgroundColor = '#F9F7F1';
@@ -714,6 +771,7 @@ function felicitation(){
 	ligne.id = 'win';
 	ligne.style.display = 'flex';
 	ligne.style.height = '27.4%';
+	ligne.style.position = 'relative';
 	ligne.style.marginTop = '4%';
 
 	var divIcone = document.createElement('div');
@@ -729,7 +787,8 @@ function felicitation(){
 	ligne.appendChild(divIcone);
 	
 	var div = document.createElement('div');
-	div.style.display = 'flex';
+	div.id = 'felicitation';
+	div.style.display = 'none';
 	div.style.alignItems = 'center';
 	div.style.boxSizing = 'border-box';
 	div.style.border = '2px solid black';
@@ -744,6 +803,9 @@ function felicitation(){
 	div.style.backgroundColor = '#F9F7F1';
 	div.textContent = "Awesome, You’ve completed this Rechargle before the phone run’s out !! Come back tomorrow and discover a new image 😉";
 	ligne.appendChild(div);
+	let waitMessage = animMessage();
+	waitMessage.style.height = '24%';
+	ligne.appendChild(waitMessage);
 	
 	return ligne
 }
@@ -758,6 +820,10 @@ function win(){
 	place.appendChild(felicitation());
 	var delivered1 = delivered();
 	delivered1.style.marginBottom = '3%';
+	delivered1.style.display = 'none';
+	setTimeout(() => {
+		delivered1.style.display = 'flex';
+	}, 3000);
 	place.appendChild(delivered1);
 	
 	var trouve = document.getElementById('nbreussi');
@@ -946,7 +1012,7 @@ function majStorage(){
 		storage.setItem('numero', num);
 		storage.setItem('batterie', 100);
 	} else {
-		document.getElementsByClassName('delivered')[0].getElementsByTagName('span')[0].textContent = storage.getItem('delivered1');
+		document.getElementsByClassName('heureDelivered')[0].textContent = storage.getItem('delivered1');
 		if (storage.getItem('batterie') != 100 || storage.getItem('win') == 'true'){
 			supInput();
 			nb = parseInt(storage.getItem('nb'));
@@ -958,19 +1024,34 @@ function majStorage(){
 					} else {
 						ajoutReponse(storage.getItem('rep' + i), '#D63232', i);
 						ajoutPerte(storage.getItem('perte' + (i + 1)));
-						if (i == storage.getItem('indice')){
-							place.appendChild(indice());
+						if (i + 1 == storage.getItem('indice')){
+							place.appendChild(indice(data[num]['alt3'], 'indice1'));
+							supAnimMessage();
+							document.getElementById('indice1').style.display = 'flex';
+						} else if (i + 1 == storage.getItem('indice2')){
+							place.appendChild(indice(data[num]['indice2'], 'indice2'));
+							supAnimMessage();
+							document.getElementById('indice2').style.display = 'flex';
+						}
+						if (i == 0){
+							place.appendChild(messageLaugh())
+							supAnimMessage();
+							document.getElementById('messageLaugh').style.display = 'flex';
 						}
 					}
 				}
 				if (storage.getItem('win') == 'true'){
 					place.appendChild(felicitation());
+					document.getElementById('felicitation').style.display = 'flex';
+					supAnimMessage();
 					var delivered1 = delivered();
 					delivered1.style.marginBottom = '3%';
 					delivered1.getElementsByTagName('span')[0].textContent = storage.getItem('delivered2');
 					place.appendChild(delivered1);
 				} else {
 					place.appendChild(lose());
+					document.getElementById('messageLose').style.display = 'flex';
+					supAnimMessage();
 					var delivered1 = delivered();
 					delivered1.style.marginBottom = '5%';
 					delivered1.getElementsByTagName('span')[0].textContent = storage.getItem('delivered2');
@@ -981,7 +1062,18 @@ function majStorage(){
 					ajoutReponse(storage.getItem('rep' + i), '#D63232', i);
 					ajoutPerte(storage.getItem('perte' + (i + 1)));
 					if (i + 1 == storage.getItem('indice')){
-						place.appendChild(indice());
+						place.appendChild(indice(data[num]['alt3'], 'indice1'));
+						supAnimMessage();
+						document.getElementById('indice1').style.display = 'flex';
+					} else if (i + 1 == storage.getItem('indice2')){
+						place.appendChild(indice(data[num]['indice2'], 'indice2'));
+						supAnimMessage();
+						document.getElementById('indice2').style.display = 'flex';
+					}
+					if (i == 0){
+						place.appendChild(messageLaugh())
+						supAnimMessage();
+						document.getElementById('messageLaugh').style.display = 'flex';
 					}
 				}
 				ajoutInput();
